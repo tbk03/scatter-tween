@@ -1,5 +1,6 @@
 <script>
 	import { LayerCake, Svg } from 'layercake';
+	import { tweened } from "svelte/motion";
 
 	import Line from './_components/Line.svelte';
 	import Area from './_components/Area.svelte';
@@ -8,6 +9,7 @@
 	import ScatterSvg from './_components/Scatter.svg.svelte';
 
 	import points from './_data/points.csv';
+import ScatterWrapper from './_components/ScatterWrapper.svelte';
 
 	const xKey = 'myX';
 	const yKey = 'myY';
@@ -16,7 +18,8 @@
 		row[yKey] = +row[yKey];
 	});
 
-	
+
+
 	// for simple scatter chart
 	let data1 = [	{x: 0, y: 0},
 					{x: 5, y: 5},
@@ -30,12 +33,20 @@
 	
 	$: data = data1;
 
+	// tweening
+	const tweenX = tweened(data1.map((d) => d.x));
+	const tweenY = tweened(data1.map((d) => d.y));
+
+
 	function handleButton1(){
 		data = data1;
 	}
 
 	function handleButton2(){
 		data = data2;
+		tweenX.set(data2.map((d) => d.x));
+		tweenY.set(data2.map((d) => d.y));
+
 	}
 
 </script>
@@ -78,10 +89,14 @@
 		data={data}>
 		
 		<Svg>
-			<!-- <AxisX/>
-			<AxisY/> -->
+			<AxisX/>
+			<AxisY/>
 			<ScatterSvg/>
 		</Svg>
 		
 	</LayerCake>
+
+	<ScatterWrapper {data}>
+
+	</ScatterWrapper>
 </div>

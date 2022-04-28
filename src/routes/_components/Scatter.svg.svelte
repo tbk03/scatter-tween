@@ -4,6 +4,7 @@
  -->
 <script>
   import { getContext } from 'svelte';
+  import { tweened } from "svelte/motion";
   //import { linear } from 'd3-scale';
 
   const { data, xGet, yGet, xScale, yScale } = getContext('LayerCake');
@@ -20,6 +21,9 @@
   /** @type {Number} [strokeWidth=0] �The circle's stroke width. */
   export let strokeWidth = 0;
 
+  export let dataset = 0;
+
+  const tweenedX = tweened(data.map((d) => xGet(d)));
   //xScale = 
 </script>
 
